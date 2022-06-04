@@ -1,6 +1,6 @@
 # Alec Diefenbaugh & Austin Britton
 # CS 445
-# Card Recognition CNN Project
+# Card Recognition Project CNN
 
 import tensorflow as tf
 

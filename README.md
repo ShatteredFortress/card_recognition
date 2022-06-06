@@ -3,5 +3,5 @@ dataset = https://www.kaggle.com/datasets/jaypradipshah/the-complete-playing-car
 
 ### To run naive.py:
 * Extract "Card Images Separated by Class.zip"
-* Then run "./naive.py \<extracted directory\>"
+* Then run "./naive.py \<extracted directory path\>"
 * Subsequent runs only need to call "./naive.py"

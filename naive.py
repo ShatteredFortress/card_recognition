@@ -2,8 +2,7 @@
 
 #https://scikit-learn.org/stable/modules/naive_bayes.html
 
-from sklearn.naive_bayes import GaussianNB
-# If we want to split the dataset sklearn's way
+from sklearn.naive_bayes import GaussianNB,ComplementNB,CategoricalNB,BernoulliNB,MultinomialNB
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 import sys
@@ -11,15 +10,8 @@ import os
 import numpy as np
 from PIL import Image
 
-gnb = GaussianNB()
-'''
-We can test all of these
-- GaussianNB()
-- CategoricalNB()
-- BernoulliNB()
-- MultinomialNB()
-- ComplementNB()
-'''
+gnb = [GaussianNB(),ComplementNB(),CategoricalNB(),MultinomialNB(),BernoulliNB()]
+
 # For multi-class naive bayes we just have to run all the predictions, then argmax the positive probabilities.
 # ACTUALLY WE DON'T HAVE TO DO THAT AT ALL IT ALREADY SUPPORTS MULTI-CLASSES!?
 
@@ -84,14 +76,14 @@ print("Splitting DataSet")
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 ############################
 
-# Train Data
-print("Training")
-y_pred = gnb.fit(X_train, y_train).predict(X_test)
+# Train Data on all distrubution types offered by sklearn
+for i in range(len(gnb)):
+    print("Training: ",gnb[i])
+    y_pred = gnb[i].fit(X_train, y_train).predict(X_test)
+    print("Number of mislabeled points out of a total %d points : %d"% (np.shape(X_test)[0], (y_test != y_pred).sum()))
 
-print("Number of mislabeled points out of a total %d points : %d"% (np.shape(X_test)[0], (y_test != y_pred).sum()))
-############################
-
-#Confusion Matrix
-#
-############################
+    #Confusion Matrix
+    #
+    ############################
+###########################
 

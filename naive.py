@@ -92,12 +92,14 @@ def confusionMatrix(y_test, y_pred, distName):
     fname = f'{distName}_conmat.png'
     sn.set(color_codes=False)
     plt.figure(1, figsize=np.shape(conmat))
+    plt.rc('axes', titlesize=70) #fontsize of the title
     plt.title(f'Confusion Matrix: {distName} Distribution')
-    sn.set(font_scale=0.6)
+    sn.set(font_scale=2.5) #fontsize of con blocks
     mp = sn.heatmap(conmat, annot=True, cbar=False, cmap='Blues')
-    mp.set_xticklabels(classes)
-    mp.set_yticklabels(classes)
-    mp.set(xlabel="Test class", ylabel="Predicted class")
+    mp.set_xlabel("Test class", fontsize=50)
+    mp.set_ylabel("Predicted class", fontsize=50)
+    mp.set_xticklabels(classes, fontsize=30)
+    mp.set_yticklabels(classes, fontsize=30)
     plt.tight_layout()
     plt.savefig(fname)
 

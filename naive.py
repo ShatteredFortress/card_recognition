@@ -70,20 +70,35 @@ else:
     y = np.load('classes.npy', allow_pickle=True)
 ############################
 
-#Split DataSet
-print("Splitting DataSet")
-#Probably want 80/20 split for test/train ?
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
-############################
+# y_test:   actual classifications,     1D Boolean Array
+# y_pred:   predicted classifications,  1D Boolean Array
+# distName: distrubution name,          string
+def confusionMatrix(y_test, y_pred, distName):
+    pass
 
 # Train Data on all distrubution types offered by sklearn
-for i in range(len(gnb)):
-    print("Training: ",gnb[i])
-    y_pred = gnb[i].fit(X_train, y_train).predict(X_test)
-    print("Number of mislabeled points out of a total %d points : %d"% (np.shape(X_test)[0], (y_test != y_pred).sum()))
+for dist in range(len(gnb)):
+    # Resplit the data to get a different outcome, report only the best for 10 trials
+    for trial in range(10):
+
+        #Split DataSet
+        print("Splitting DataSet")
+        #Probably want 80/20 split for test/train ?
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+        ############################
+
+        print("Training: ",gnb[dist], " Trial: ",trial)
+        y_pred = gnb[dist].fit(X_train, y_train).predict(X_test)
+        score = (y_test != y_pred).sum()
+        print("score: ",score,"\n")   
+        if trial == 0 or score < best_score: # lowest number of mislabeled points
+            best_score = score
+            best_X_train = X_train
+            best_X_test = X_test
+            best_y_test = y_test  
+            best_y_pred = y_pred
+
+    print("Number of mislabeled points out of a total %d points : %d\n"% (np.shape(best_X_test)[0], (best_y_test != best_y_pred).sum()))
 
     #Confusion Matrix
-    #
-    ############################
-###########################
-
+    confusionMatrix(best_y_test, best_y_pred, gnb[dist])

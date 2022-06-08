@@ -103,6 +103,9 @@ def confusionMatrix(y_test, y_pred, distName):
     plt.tight_layout()
     plt.savefig(fname)
 
+    # Clear the old plot
+    plt.clf()
+
 # Train Data on all distrubution types offered by sklearn
 for dist in range(len(gnb)):
     # Resplit the data to get a different outcome, report only the best for 10 trials

@@ -10,6 +10,10 @@ import os
 import numpy as np
 from PIL import Image
 
+# for conmat export
+import seaborn as sn
+import matplotlib.pyplot as plt
+
 gnb = [GaussianNB(),ComplementNB(),CategoricalNB(),MultinomialNB(),BernoulliNB()]
 
 # For multi-class naive bayes we just have to run all the predictions, then argmax the positive probabilities.
@@ -32,6 +36,30 @@ def imageToArray(image):
     greyscaleArray = np.array(greyscaleArray, dtype=float)
     normalizedArray = preprocessing.normalize([greyscaleArray])
     return normalizedArray[0]
+
+# Simple function for preparing and exporting a conmat to a png
+# Prints in a heatmap format, and includes the training type in the title
+def exportConMat(test, pred, dist_type):
+    # find all classes (sorted)
+    classes = np.unique(test)
+    conmat = np.zeros((np.shape(classes)[0], np.shape(classes)[0]))
+    # for each input, mark where in the confusion matrix the input lies (x = test, y = prediction)
+    for (t, p) in zip(test, pred):
+        t_idx = np.argwhere(classes==t)[0][0]
+        p_idx = np.argwhere(classes==p)[0][0]
+        conmat[t_idx][p_idx] += 1
+    # exporting conmat
+    fname = f'{dist_type}_conmat.png'
+    sn.set(color_codes=False)
+    plt.figure(1, figsize=np.shape(conmat))
+    plt.title(f'Confusion Matrix: {dist_type} Distribution')
+    sn.set(font_scale=0.6)
+    mp = sn.heatmap(conmat, annot=True, cbar=False, cmap='Blues')
+    mp.set_xticklabels(classes)
+    mp.set_yticklabels(classes)
+    mp.set(xlabel="Test class", ylabel="Predicted class")
+    plt.tight_layout()
+    plt.savefig(fname)
 
 # Import DataSet
 #x = features = pixel arrays
@@ -86,4 +114,4 @@ for i in range(len(gnb)):
     #
     ############################
 ###########################
-
+    exportConMat(y_test, y_pred, gnb[i])

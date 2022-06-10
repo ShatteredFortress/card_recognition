@@ -96,8 +96,8 @@ def confusionMatrix(y_test, y_pred, distName):
     plt.title(f'Confusion Matrix: {distName} Distribution')
     sn.set(font_scale=2.5) #fontsize of con blocks
     mp = sn.heatmap(conmat, annot=True, cbar=False, cmap='Blues')
-    mp.set_xlabel("Test class", fontsize=50)
-    mp.set_ylabel("Predicted class", fontsize=50)
+    mp.set_xlabel("Predicted class", fontsize=50)
+    mp.set_ylabel("Test class", fontsize=50)
     mp.set_xticklabels(classes, fontsize=30)
     mp.set_yticklabels(classes, fontsize=30)
     plt.tight_layout()
@@ -111,10 +111,6 @@ for dist in range(len(gnb)):
     # Resplit the data to get a different outcome, report only the best for 10 trials
     for trial in range(10):
 
-    #Confusion Matrix
-    #
-    ############################
-###########################
         #Split DataSet
         print("Splitting DataSet")
         #Probably want 80/20 split for test/train ?

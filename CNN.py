@@ -1,4 +1,4 @@
-# Alec Diefenbaugh & Austin Britton
+# Alec & Austin
 # CS 445/545
 # Card Recognition Project CNN
 
